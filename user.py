@@ -101,12 +101,13 @@ class User:
 
             if conn.is_connected():
                 new_zakaz = "INSERT INTO ASK_market_billing" \
-                           "(summa, status) VALUES(%s,%s)"
+                            "(summa, status, id_user) VALUES(%s,%s,%s)"
                 cursor = conn.cursor()
                 total_prix = 0
                 for element in self.basket:
                     total_prix += element.prix
-                cursor.execute(new_zakaz, (total_prix, 'в обработке'))
+                cursor.execute(new_zakaz, (total_prix, 'в обработке',
+                                           self.user_id))
                 if cursor.lastrowid:
                     print('Заказ успешно оформлен.\nНомер заказа: ',
                           cursor.lastrowid)
@@ -131,8 +132,8 @@ class User:
 
             if conn.is_connected():
                 new_zakaz = "INSERT INTO ASK_market_full_orders" \
-                           "(numero_de_zakaz, product_id, product_nom, " \
-                           "user_id, user_email) VALUES(%s,%s,%s,%s,%s)"
+                            "(numero_de_zakaz, product_id, product_nom, " \
+                            "user_id, user_email) VALUES(%s,%s,%s,%s,%s)"
                 cursor = conn.cursor()
                 cursor.execute(new_zakaz, (numero_de_zakaz, product_id,
                                            product_nom, user_id, user_email))

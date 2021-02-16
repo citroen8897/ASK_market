@@ -63,7 +63,7 @@ while True:
                                '6 - посмотреть историю заказов\n',
                                '0 - выход из программы\n']}
 
-    user_input_2 = input('|||___///___ОСНОВНОЕ МЕНЮ МАРКЕТА___\\\\\\___|||\n'
+    user_input_2 = input('\n|||___///___ОСНОВНОЕ МЕНЮ МАРКЕТА___\\\\\\___|||\n'
                          '___________________________________________\n'
                          f'{commands_dict[current_user.status][0]}'
                          f'{commands_dict[current_user.status][1]}'
@@ -76,6 +76,8 @@ while True:
                          'Ваш выбор: ')
 
     if user_input_2 == '1':
+        print('\n___________________________________________'
+              '\n___///ПОЛНЫЙ СПИСОК ТОВАРОВ///___\n')
         for element in products_data_base:
             print(element)
 
@@ -100,6 +102,12 @@ while True:
                                 current_user.basket.append(element)
                 except ValueError:
                     print('Ошибка! Введено не число!')
+
+        elif current_user.status == 'admin':
+            print('\n___________________________________________'
+                  '\n___///ПОЛНЫЙ СПИСОК КЛИЕНТОВ///___\n')
+            for element in users_data_base:
+                print(element)
 
     elif user_input_2 == '3':
         if current_user.status == 'user':
