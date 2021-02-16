@@ -3,6 +3,7 @@ import product
 import get_users_data_base
 import get_products_data_base
 import password_generator
+import re
 
 while True:
     user_input_1 = input('S.P.Q.R.\n'
@@ -127,6 +128,66 @@ while True:
                     print('Товар успешно удален из корзины...')
                 else:
                     print('Неверный номер товара!')
+
+        elif current_user.status == 'admin':
+            user_input_6 = input('Введите id товара: ')
+            while not user_input_6.isdigit():
+                user_input_6 = input('Введите id товара: ')
+
+            if int(user_input_6) not in \
+                    [i.product_id for i in products_data_base]:
+                print('Товар с таким id не найден!')
+
+            else:
+                for element in products_data_base:
+                    if element.product_id == int(user_input_6):
+                        current_product = element
+                user_input_7 = input('\n1 - изменить статус товара\n'
+                                     '2 - изменить цену товара\n'
+                                     '3 - изменить название товара\n')
+
+                if user_input_7 == '1':
+                    print(f'текущий статус товара: {current_product.etre}')
+                    new_status = input('Необходимо задать статус наличия '
+                                       'товара\n'
+                                       'Выберите статус согласно цифровому '
+                                       'идентификатору\n'
+                                       'Возможные статусы:\n'
+                                       '1 - в наличии\n'
+                                       '2 - нет в наличии\n'
+                                       '3 - ожидается\n'
+                                       '4 - под заказ\n'
+                                       '5 - снято с производства\n'
+                                       'Введите статус наличия товара: ')
+                    while new_status not in ['1', '2', '3', '4', '5']:
+                        new_status = input('Необходимо задать статус наличия '
+                                           'товара\n'
+                                           'Выберите статус согласно цифровому'
+                                           ' идентификатору\n'
+                                           'Возможные статусы:\n'
+                                           '1 - в наличии\n'
+                                           '2 - нет в наличии\n'
+                                           '3 - ожидается\n'
+                                           '4 - под заказ\n'
+                                           '5 - снято с производства\n'
+                                           'Введите статус наличия товара: ')
+                    current_product.choisir_status(new_status)
+
+                elif user_input_7 == '2':
+                    print(f'текущая цена товара: {current_product.prix}')
+                    new_prix = input('Введите новую цену товара: ')
+                    while re.findall(r'[^0-9.]', new_prix) or len(
+                            new_prix) == 0:
+                        new_prix = input('Введите новую цену товара: ')
+                    new_prix = float(new_prix)
+                    current_product.choisir_prix(new_prix)
+
+                elif user_input_7 == '3':
+                    print(f'Текущее название товара: {current_product.nom}')
+                    new_nom = input('Введите новое название товара: ')
+                    while not re.findall(r'[a-zA-Zа-яА-Я0-9]', new_nom):
+                        new_nom = input('Введите новое название товара: ')
+                    current_product.choisir_nom(new_nom)
 
     elif user_input_2 == '5':
         if current_user.status == 'admin':

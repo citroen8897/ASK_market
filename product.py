@@ -72,3 +72,67 @@ class Product:
         finally:
             conn.close()
             cursor.close()
+
+    def choisir_status(self, new_product_status):
+        try:
+            conn = mysql.connector.connect(user='root',
+                                           host='localhost',
+                                           database='mysql')
+
+            if conn.is_connected():
+                self.etre = new_product_status
+                self.etre = self.q_list[self.q_list.index(self.etre) + 1]
+                new_status = f"UPDATE ASK_market_products " \
+                             f"SET etre = '{self.etre}' " \
+                             f"WHERE id = {self.product_id}"
+                cursor = conn.cursor()
+                cursor.execute(new_status)
+                print('Статус товара успешно изменен!')
+                conn.commit()
+        except Error as error:
+            print(error)
+        finally:
+            conn.close()
+            cursor.close()
+
+    def choisir_prix(self, new_product_prix):
+        try:
+            conn = mysql.connector.connect(user='root',
+                                           host='localhost',
+                                           database='mysql')
+
+            if conn.is_connected():
+                self.prix = new_product_prix
+                new_prix = f"UPDATE ASK_market_products " \
+                           f"SET prix = '{self.prix}' " \
+                           f"WHERE id = {self.product_id}"
+                cursor = conn.cursor()
+                cursor.execute(new_prix)
+                print('Цена товара успешно изменена!')
+                conn.commit()
+        except Error as error:
+            print(error)
+        finally:
+            conn.close()
+            cursor.close()
+
+    def choisir_nom(self, new_product_nom):
+        try:
+            conn = mysql.connector.connect(user='root',
+                                           host='localhost',
+                                           database='mysql')
+
+            if conn.is_connected():
+                self.nom = new_product_nom
+                new_nom = f"UPDATE ASK_market_products " \
+                           f"SET nom = '{self.nom}' " \
+                           f"WHERE id = {self.product_id}"
+                cursor = conn.cursor()
+                cursor.execute(new_nom)
+                print('Название товара успешно изменено!')
+                conn.commit()
+        except Error as error:
+            print(error)
+        finally:
+            conn.close()
+            cursor.close()
