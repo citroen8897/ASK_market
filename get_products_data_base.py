@@ -3,7 +3,7 @@ import mysql.connector
 from mysql.connector import Error
 
 
-def get_users_db():
+def get_products_db():
     products_data_base = []
     try:
         conn = mysql.connector.connect(user='root',

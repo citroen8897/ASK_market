@@ -16,7 +16,7 @@ while True:
                          'Ваш выбор: ')
 
     users_data_base = get_users_data_base.get_users_db()
-    products_data_base = get_products_data_base.get_users_db()
+    products_data_base = get_products_data_base.get_products_db()
 
     if user_input_1 == '1':
         user_email = input('Введите Ваш e-mail: ')
@@ -243,7 +243,7 @@ while True:
         if current_user.status == 'admin':
             new_product = product.Product(0, '', '', '', '', '')
             new_product.add_product_data_base()
-            products_data_base = get_products_data_base.get_users_db()
+            products_data_base = get_products_data_base.get_products_db()
 
         elif current_user.status == 'user':
             numero_de_zakaz = current_user.make_zakaz()
