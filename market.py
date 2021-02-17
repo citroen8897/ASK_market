@@ -4,6 +4,7 @@ import get_users_data_base
 import get_products_data_base
 import password_generator
 import re
+import status_de_zakaz
 
 while True:
     user_input_1 = input('S.P.Q.R.\n'
@@ -58,7 +59,7 @@ while True:
                               '0 - выход из программы\n'],
                      'admin': ['1 - посмотреть каталог товаров\n',
                                '2 - посмотреть список пользователей\n',
-                               '3 - посмотреть карточку клиента\n',
+                               '3 - изменить статус заказа\n',
                                '4 - редактирование товаров\n',
                                '5 - добавление товаров\n',
                                '6 - посмотреть историю заказов\n',
@@ -114,6 +115,53 @@ while True:
         if current_user.status == 'user':
             current_user.get_basket()
 
+        elif current_user.status == 'admin':
+            current_zakaz_id = input('Введите номер заказа: ')
+            while not current_zakaz_id.isdigit():
+                current_zakaz_id = input('Введите номер заказа: ')
+
+            history_des_zakazes = current_user.get_history_des_zakazes()
+            list_numeros_des_zakazes = []
+            for element in history_des_zakazes:
+                for k, v in element.items():
+                    if k == '№ заказа: ':
+                        list_numeros_des_zakazes.append(str(v))
+
+            if current_zakaz_id not in list_numeros_des_zakazes:
+                print('Заказ не найден!')
+
+            else:
+                for element in history_des_zakazes:
+                    for k, v in element.items():
+                        if k == '№ заказа: ':
+                            if v == int(current_zakaz_id):
+                                current_zakaz = element
+
+                print(f'текущий статус заказа: '
+                      f'{current_zakaz["статус заказа: "]}')
+                user_input_8 = input('Введите новый статус заказа согласно '
+                                     'цифровому идентификатору\n'
+                                     '1 - в обработке\n'
+                                     '2 - обработан\n'
+                                     '3 - отправлен\n'
+                                     '4 - доставлен\n'
+                                     '5 - выполнен\n')
+                while user_input_8 not in ['1', '2', '3', '4', '5']:
+                    user_input_8 = input(
+                        'Введите новый статус заказа согласно '
+                        'цифровому идентификатору\n'
+                        '1 - в обработке\n'
+                        '2 - обработан\n'
+                        '3 - отправлен\n'
+                        '4 - доставлен\n'
+                        '5 - выполнен\n')
+                list_status = ['1', 'в обработке', '2', 'обработан',
+                               '3', 'отправлен', '4', 'доставлен',
+                               '5', 'выполнен']
+                zakaz_status = list_status[list_status.index(user_input_8) + 1]
+                status_de_zakaz.choisir_status_de_zakaz(zakaz_status,
+                                                        current_zakaz_id)
+
     elif user_input_2 == '4':
         if current_user.status == 'user':
             current_user.get_basket()
@@ -123,9 +171,11 @@ while True:
                 while not user_input_4.isdigit():
                     user_input_4 = input('Введите порядковый номер товара из '
                                          'корзины, который желаете удалить: ')
+
                 if int(user_input_4) in range(len(current_user.basket) + 1):
                     current_user.basket.pop(int(user_input_4) - 1)
                     print('Товар успешно удален из корзины...')
+
                 else:
                     print('Неверный номер товара!')
 
